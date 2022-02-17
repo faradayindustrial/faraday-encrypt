@@ -12,17 +12,14 @@
 # Faraday Encrypt
 # Albert's first Faraday Industrial tool
 
-from Crypto.Cipher import AES
 import sys
+from itertools import cycle
 
-def encrypt(data: str, key: str) -> str:
+def encrypt(data: bytes, key: bytes) -> str:
     """
-    Encrypts the given input data using AES ECB encryption and a supplied key.
+    Encrypts the given input data using XOR and a supplied key.
     """
-    cipher = AES.new(key, AES.MODE_ECB)
-    # Pad the data to a multiple of 16 bytes
-    data = data + b'\x00' * (16 - (len(data) % 16))
-    return cipher.encrypt(data)
+    return bytes(x ^ y for x, y in zip(data, cycle(key)))
 
 def encrypt_file(input_file: str, output_file: str, key: str) -> None:
     """
@@ -35,7 +32,7 @@ def encrypt_file(input_file: str, output_file: str, key: str) -> None:
 
 if __name__ == "__main__":
     # Read the arguments of the program to get the key and list of files to encrypt
-    key = sys.argv[1]
+    key = sys.argv[1].encode()
     files = sys.argv[2:]
     # Encrypt the files
     for file in files:
