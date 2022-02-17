@@ -23,7 +23,7 @@ def encrypt(data: bytes, key: bytes) -> str:
 
 def encrypt_file(input_file: str, output_file: str, key: str) -> None:
     """
-    Encrypts the contents of the given input file using AES ECB encryption and a supplied key.
+    Encrypts the contents of the given input file using XOR encryption and a supplied key.
     """
     with open(input_file, 'rb') as f:
         data = f.read()
